@@ -16,6 +16,9 @@ import java.util.stream.Collectors;
 import static ru.javawebinar.topjava.repository.mock.InMemoryUserRepositoryImpl.ADMIN_ID;
 import static ru.javawebinar.topjava.repository.mock.InMemoryUserRepositoryImpl.USER_ID;
 
+import static ru.javawebinar.topjava.repository.mock.InMemoryUserRepositoryImpl.ADMIN_ID;
+import static ru.javawebinar.topjava.repository.mock.InMemoryUserRepositoryImpl.USER_ID;
+
 /**
  * GKislin
  * 15.09.2015.
@@ -54,6 +57,14 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
     }
 
     @Override
+    public Collection<UserMeal> getBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
+        Objects.requireNonNull(startDateTime);
+        Objects.requireNonNull(endDateTime);
+        return getAll(userId).stream()
+                .filter(um -> TimeUtil.isBetween(um.getDateTime(), startDateTime, endDateTime))
+                .collect(Collectors.toList());
+    }
+    @Override
     public boolean delete(int id, int userId) {
         Map<Integer, UserMeal> userMeals = repository.get(userId);
         return userMeals != null && userMeals.remove(id) != null;
@@ -73,12 +84,4 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
                 userMeals.values().stream().sorted(USER_MEAL_COMPARATOR).collect(Collectors.toList());
     }
 
-    @Override
-    public Collection<UserMeal> getBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
-        Objects.requireNonNull(startDateTime);
-        Objects.requireNonNull(endDateTime);
-        return getAll(userId).stream()
-                .filter(um -> TimeUtil.isBetween(um.getDateTime(), startDateTime, endDateTime))
-                .collect(Collectors.toList());
-    }
 }

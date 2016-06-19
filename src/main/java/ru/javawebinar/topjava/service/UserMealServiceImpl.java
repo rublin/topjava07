@@ -21,12 +21,12 @@ public class UserMealServiceImpl implements UserMealService {
 
     @Override
     public UserMeal get(int id, int userId) {
-        return ExceptionUtil.check(repository.get(id, userId), id);
+        return ExceptionUtil.checkNotFoundWithId(repository.get(id, userId), id);
     }
 
     @Override
     public void delete(int id, int userId) {
-        ExceptionUtil.check(repository.delete(id, userId), id);
+        ExceptionUtil.checkNotFoundWithId(repository.delete(id, userId), id);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class UserMealServiceImpl implements UserMealService {
 
     @Override
     public UserMeal update(UserMeal meal, int userId) {
-        return ExceptionUtil.check(repository.save(meal, userId), meal.getId());
+        return ExceptionUtil.checkNotFoundWithId(repository.save(meal, userId), meal.getId());
     }
 
     @Override
