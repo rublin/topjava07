@@ -61,4 +61,9 @@ public class UserMeal extends BaseEntity {
                 ", calories=" + calories +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return this.toString().equals(o.toString());
+    }
 }
