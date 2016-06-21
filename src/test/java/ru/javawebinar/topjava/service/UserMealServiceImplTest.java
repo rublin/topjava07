@@ -11,6 +11,7 @@ import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.util.DbPopulator;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -63,9 +64,18 @@ public class UserMealServiceImplTest {
     }
 
     @Test
-    public void testGetBetweenDateTimes() throws Exception {
-        throw new NotFoundException("");
+    public void testGetBetweenDate() throws Exception {
+        LocalDate from = LocalDate.of(2015,05,30);
+        LocalDate to = LocalDate.of(2015,05,31);
+        MATCHER.assertCollectionEquals(getFiltered(from, to, USER_ID),service.getBetweenDates(from, to, USER_ID));
     }
+
+/*    @Test
+    public void testGetBetweenTime() throws Exception {
+        LocalTime from = LocalTime.of(9,00);
+        LocalTime to = LocalTime.of(11,00);
+        MATCHER.assertCollectionEquals(getFilteredByTime(), service.getBetweenDateTimes(from, to, USER_ID));
+    }*/
 
     @Test
     public void testGetAll() throws Exception {
@@ -75,14 +85,11 @@ public class UserMealServiceImplTest {
         MATCHER.assertCollectionEquals(meals, all);
     }
 
-    @Test
-    public void testUpdate() throws Exception {
-        UserMeal updatedMeal = MEAL_MAP.get(USER_ID).get(1);
-        updatedMeal.setDescription("some other desc");
-        updatedMeal.setCalories(3000);
-        service.update(updatedMeal, USER_ID);
-        MATCHER.assertEquals(updatedMeal, service.get(START_SEQ+3, USER_ID));
-    }
+    /*@Test(expected = NotFoundException.class)
+    public void testUpdateNotFound() throws Exception {
+        UserMeal updatedMeal = new UserMeal(START_SEQ+7, LocalDateTime.now(), "some other desc", 3000);
+        service.update(updatedMeal, ADMIN_ID);
+    }*/
 
     @Test
     public void testSave() throws Exception {
@@ -95,5 +102,15 @@ public class UserMealServiceImplTest {
     @Test(expected = DataAccessException.class)
     public void testDuplicationDateTimeSave() throws Exception {
         service.save(new UserMeal(null, LocalDateTime.of(2016,05,30,10,00,38), "Duplicate", 1610), USER_ID);
+    }
+
+    @Test
+    public void testUpdate() throws Exception {
+        UserMeal updatedMeal = MEAL_MAP.get(USER_ID).get(1);
+        updatedMeal.setDescription("some other desc");
+        updatedMeal.setCalories(3000);
+        updatedMeal.setDateTime(LocalDateTime.now());
+        service.update(updatedMeal, USER_ID);
+        MATCHER.assertEquals(updatedMeal, service.get(START_SEQ+3, USER_ID));
     }
 }

@@ -2,9 +2,12 @@ package ru.javawebinar.topjava;
 
 import ru.javawebinar.topjava.matcher.ModelMatcher;
 import ru.javawebinar.topjava.model.UserMeal;
+import ru.javawebinar.topjava.util.TimeUtil;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static ru.javawebinar.topjava.model.BaseEntity.START_SEQ;
 /**
@@ -12,6 +15,8 @@ import static ru.javawebinar.topjava.model.BaseEntity.START_SEQ;
  * 13.03.2015.
  */
 public class MealTestData {
+    private static Comparator<UserMeal> compareByTime = (UserMeal um1, UserMeal um2) ->
+            um2.getDateTime().compareTo(um1.getDateTime());
     public static final int USER_ID = START_SEQ;
     public static final int ADMIN_ID = START_SEQ + 1;
     public static final Map<Integer, List<UserMeal>> MEAL_MAP = new HashMap<>();
@@ -27,6 +32,14 @@ public class MealTestData {
             new UserMeal(START_SEQ+7, LocalDateTime.of(2015,06,1,15,36,38), "Админ ланч", 510),
             new UserMeal(START_SEQ+8, LocalDateTime.of(2015,06,1,20,10,8), "Админ ужин", 1510)
         ));
+    }
+
+    public static List<UserMeal> getFiltered(LocalDate from, LocalDate to, int uid) {
+        return MEAL_MAP.get(uid)
+                .stream()
+                .filter(um -> TimeUtil.isBetween(um.getDateTime().toLocalDate(), from, to))
+                .sorted(compareByTime)
+                .collect(Collectors.toList());
     }
 
     public static final ModelMatcher<UserMeal, String> MATCHER = new ModelMatcher<>(UserMeal::toString);
