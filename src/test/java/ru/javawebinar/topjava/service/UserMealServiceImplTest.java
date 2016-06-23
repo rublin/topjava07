@@ -85,11 +85,11 @@ public class UserMealServiceImplTest {
         MATCHER.assertCollectionEquals(meals, all);
     }
 
-    /*@Test(expected = NotFoundException.class)
+    @Test(expected = NotFoundException.class)
     public void testUpdateNotFound() throws Exception {
-        UserMeal updatedMeal = new UserMeal(START_SEQ+7, LocalDateTime.now(), "some other desc", 3000);
+        UserMeal updatedMeal = service.get(START_SEQ+8, USER_ID);
         service.update(updatedMeal, ADMIN_ID);
-    }*/
+    }
 
     @Test
     public void testSave() throws Exception {
