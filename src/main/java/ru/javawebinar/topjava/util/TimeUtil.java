@@ -2,6 +2,9 @@ package ru.javawebinar.topjava.util;
 
 import org.springframework.util.StringUtils;
 
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -11,6 +14,7 @@ import java.time.format.DateTimeFormatter;
  * GKislin
  * 07.01.2015.
  */
+//@Converter
 public class TimeUtil {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     public static final DateTimeFormatter DATE_TME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -35,4 +39,14 @@ public class TimeUtil {
     public static LocalTime parseLocalTime(String str) {
         return StringUtils.isEmpty(str) ? null : LocalTime.parse(str);
     }
+/*
+    @Override
+    public Timestamp convertToDatabaseColumn(LocalDateTime attribute) {
+        return Timestamp.valueOf(attribute);
+    }
+
+    @Override
+    public LocalDateTime convertToEntityAttribute(Timestamp dbData) {
+        return dbData.toLocalDateTime();
+    }*/
 }
