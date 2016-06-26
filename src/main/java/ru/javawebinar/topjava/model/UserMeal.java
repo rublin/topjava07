@@ -1,8 +1,10 @@
 package ru.javawebinar.topjava.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -26,7 +28,7 @@ public class UserMeal extends BaseEntity {
     public static final String ALL_SORTED = "UserMeal.getAllSorted";
     public static final String GET = "UserMeal.get";
     @Column(name = "date_time", nullable = false, unique = true)
-    @NotEmpty
+    @NotNull
     private LocalDateTime dateTime;
 
     @Column(name = "description", nullable = false)
@@ -34,10 +36,12 @@ public class UserMeal extends BaseEntity {
     private String description;
 
     @Column(name = "calories", nullable = false)
-    @NotEmpty
+    @Range(min = 10, max = 5000)
+    @NotNull
     protected int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     public UserMeal() {

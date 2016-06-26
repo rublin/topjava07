@@ -14,7 +14,6 @@ import java.time.format.DateTimeFormatter;
  * GKislin
  * 07.01.2015.
  */
-//@Converter
 public class TimeUtil {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     public static final DateTimeFormatter DATE_TME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -40,13 +39,6 @@ public class TimeUtil {
         return StringUtils.isEmpty(str) ? null : LocalTime.parse(str);
     }
 /*
-    @Override
-    public Timestamp convertToDatabaseColumn(LocalDateTime attribute) {
-        return Timestamp.valueOf(attribute);
-    }
 
-    @Override
-    public LocalDateTime convertToEntityAttribute(Timestamp dbData) {
-        return dbData.toLocalDateTime();
     }*/
 }
