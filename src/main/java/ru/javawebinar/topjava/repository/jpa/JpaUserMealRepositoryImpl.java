@@ -1,7 +1,9 @@
 package ru.javawebinar.topjava.repository.jpa;
 
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
 
@@ -25,11 +27,13 @@ public class JpaUserMealRepositoryImpl implements UserMealRepository {
     @Override
     @Transactional
     public UserMeal save(UserMeal userMeal, int userId) {
+        User ref = em.getReference(User.class, userId);
+        userMeal.setUser(ref);
         if (userMeal.isNew()) {
             em.persist(userMeal);
             return userMeal;
         } else {
-            return em.merge(userMeal);
+            return get(userMeal.getId(), userId) == null ? null : em.merge(userMeal);
         }
     }
 
@@ -41,16 +45,17 @@ public class JpaUserMealRepositoryImpl implements UserMealRepository {
 
     @Override
     public UserMeal get(int id, int userId) {
-        return em.createNamedQuery(UserMeal.GET, UserMeal.class).setParameter("id", id).setParameter("user_id", userId).getSingleResult();
+        List<UserMeal> meals = em.createNamedQuery(UserMeal.GET, UserMeal.class).setParameter("id", id).setParameter("user_id", userId).getResultList();
+        return DataAccessUtils.singleResult(meals);
     }
 
     @Override
     public List<UserMeal> getAll(int userId) {
-        return em.createNamedQuery(UserMeal.ALL_SORTED, UserMeal.class).getResultList();
+        return em.createNamedQuery(UserMeal.ALL_SORTED, UserMeal.class).setParameter("user_id", userId).getResultList();
     }
 
     @Override
     public List<UserMeal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return em.createNamedQuery(UserMeal.BETWEEN, UserMeal.class).setParameter("start_date", startDate).setParameter("end_date", endDate).getResultList();
+        return em.createNamedQuery(UserMeal.BETWEEN, UserMeal.class).setParameter("start_date", startDate).setParameter("end_date", endDate).setParameter("user_id", userId).getResultList();
     }
 }
