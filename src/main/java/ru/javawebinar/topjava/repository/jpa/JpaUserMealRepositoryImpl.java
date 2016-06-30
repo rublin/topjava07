@@ -33,19 +33,27 @@ public class JpaUserMealRepositoryImpl implements UserMealRepository {
             em.persist(userMeal);
             return userMeal;
         } else {
-            return get(userMeal.getId(), userId) == null ? null : em.merge(userMeal);
+            return get(userMeal.getId(), userId) == null ?
+                    null :
+                    em.merge(userMeal);
         }
     }
 
     @Override
     @Transactional
     public boolean delete(int id, int userId) {
-        return em.createNamedQuery(UserMeal.DELETE).setParameter("id", id).setParameter("user_id", userId).executeUpdate() !=0;
+        return em.createNamedQuery(UserMeal.DELETE)
+                .setParameter("id", id)
+                .setParameter("user_id", userId)
+                .executeUpdate() !=0;
     }
 
     @Override
     public UserMeal get(int id, int userId) {
-        List<UserMeal> meals = em.createNamedQuery(UserMeal.GET, UserMeal.class).setParameter("id", id).setParameter("user_id", userId).getResultList();
+        List<UserMeal> meals = em.createNamedQuery(UserMeal.GET, UserMeal.class)
+                .setParameter("id", id)
+                .setParameter("user_id", userId)
+                .getResultList();
         return DataAccessUtils.singleResult(meals);
     }
 
