@@ -30,16 +30,16 @@ import java.util.Objects;
 public class MealServlet extends HttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(MealServlet.class);
 
-    private GenericXmlApplicationContext springContext;
+    private ClassPathXmlApplicationContext springContext;
 //    private AnnotationConfigApplicationContext springContext;
     private UserMealRestController mealController;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        springContext = new GenericXmlApplicationContext();
+        springContext = new ClassPathXmlApplicationContext();
         springContext.getEnvironment().setActiveProfiles(Profiles.ACTIVE_DB, Profiles.JPA_DATAJPA, Profiles.DATAJPA);
-        springContext.load("spring/spring-app.xml", "spring/spring-db.xml");
+        springContext.setConfigLocations("spring/spring-app.xml", "spring/spring-db.xml");
         springContext.refresh();
         mealController = springContext.getBean(UserMealRestController.class);
     }
