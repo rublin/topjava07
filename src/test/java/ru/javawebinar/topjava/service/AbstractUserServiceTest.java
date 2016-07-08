@@ -22,13 +22,10 @@ abstract public class AbstractUserServiceTest extends AbstractServiceTest {
     @Autowired
     protected UserService service;
 
-    @Autowired
-    protected JpaUtil jpaUtil;
-
-    @Before
-    public void setUp() throws Exception {
-        service.evictCache();
-        jpaUtil.clear2ndLevelHibernateCache();
+    @Test
+    public void testGetAll() throws Exception {
+        Collection<User> all = service.getAll();
+        MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, USER), all);
     }
 
     @Test
@@ -70,12 +67,6 @@ abstract public class AbstractUserServiceTest extends AbstractServiceTest {
     public void testGetByEmail() throws Exception {
         User user = service.getByEmail("user@yandex.ru");
         MATCHER.assertEquals(USER, user);
-    }
-
-    @Test
-    public void testGetAll() throws Exception {
-        Collection<User> all = service.getAll();
-        MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, USER), all);
     }
 
     @Test
