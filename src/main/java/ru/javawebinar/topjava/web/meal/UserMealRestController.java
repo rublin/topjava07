@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.web.meal;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -32,8 +33,8 @@ public class UserMealRestController extends AbstractUserMealController {
         return super.get(id);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
-    public void delete(@RequestBody int id) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable("id") int id) {
         super.delete(id);
     }
 
@@ -58,10 +59,9 @@ public class UserMealRestController extends AbstractUserMealController {
 
     @RequestMapping(value = "/between", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<UserMealWithExceed> getBetween(
-            @RequestParam LocalDate startDate,
-            @RequestParam LocalTime startTime,
-            @RequestParam LocalDate endDate,
-            @RequestParam LocalTime endTime) {
-        return super.getBetween(startDate, startTime, endDate, endTime);
+            @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime  start,
+            @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
+        System.out.println(start);
+        return super.getBetween( start.toLocalDate(), start.toLocalTime(), end.toLocalDate(), end.toLocalTime());
     }
 }
