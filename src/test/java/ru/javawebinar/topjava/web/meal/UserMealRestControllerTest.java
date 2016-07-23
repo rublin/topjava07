@@ -86,4 +86,15 @@ public class UserMealRestControllerTest extends AbstractControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MATCHER_WITH_EXCEEDED.contentListMatcher(Arrays.asList(exceedList.get(1), exceedList.get(2))));
     }
+
+    @Test
+    public void testFilter() throws Exception {
+        mockMvc.perform(get(REST_URL + "filter?startDate=2015-05-30&startTime=07:00&endDate=2015-05-31&endTime=11:00"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(MATCHER_WITH_EXCEEDED.contentListMatcher(
+                        UserMealsUtil.createWithExceed(MEAL4, true),
+                        UserMealsUtil.createWithExceed(MEAL1, false)
+                ));
+    }
 }
