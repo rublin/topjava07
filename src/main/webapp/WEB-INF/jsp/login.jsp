@@ -43,9 +43,9 @@
         </c:if>
         <p>
 
-        <p>User login: <b>user@yandex.ru / password</b></p>
+        <p>User login: <b>user@gmail.com / P@ssw0rd</b></p>
 
-        <p>Admin login: <b>admin@gmail.com / admin</b></p>
+        <p>Admin login: <b>admin@gmail.com / P@ssw0rd</b></p>
 
         <p><a class="btn btn-primary btn-lg" role="button" href="register"><spring:message code="app.register"/> &raquo;</a></p>
         <p>Стек технологий: <a href="http://projects.spring.io/spring-security/">Spring Security</a>,
@@ -73,7 +73,7 @@
 </div>
 <div class="container">
     <div class="lead">
-        &nbsp;&nbsp;&nbsp;<a href="https://github.com/JavaOPs/topjava">Java Enterprise проект</a> с
+        &nbsp;&nbsp;&nbsp;<a href="https://github.com/rublin/topjava07">Java Enterprise проект</a> с
         регистрацией/авторизацией и интерфейсом на основе ролей (USER, ADMIN).
         Администратор может создавать/редактировать/удалять/пользователей, а пользователь - управлять своим
         профилем и данными (день, еда, калории) через UI (по AJAX) и по REST интерфейсу с базовой авторизацией.

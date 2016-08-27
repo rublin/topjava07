@@ -5,11 +5,11 @@ ALTER SEQUENCE global_seq RESTART WITH 100000;
 
 -- password
 INSERT INTO users (name, email, password, calories_per_day)
-VALUES ('User', 'user@yandex.ru', '$2a$10$Sh0ZD2NFrzRRJJEKEWn8l.92ROEuzlVyzB9SV1AM8fdluPR0aC1ni', 2005);
+VALUES ('User', 'user@gmail.com', '$2a$10$y6ha5wd5yJnIeHMG5Egcy.ZyWwAcb9CMTZ/JfIwP90i91PcOazPGG', 2005);
 
 -- admin
 INSERT INTO users (name, email, password, calories_per_day)
-VALUES ('Admin', 'admin@gmail.com', '$2a$10$WejOLxVuXRpOgr4IlzQJ.eT4UcukNqHlAiOVZj1P/nmc8WbpMkiju', 1900);
+VALUES ('Admin', 'admin@gmail.com', '$2a$10$dl8nwGTkuBTFSAvUpo7n1OrK6TXsAu8p3CvWQ3IRPNa62m/wi27oW', 1900);
 
 INSERT INTO user_roles (role, user_id) VALUES
   ('ROLE_USER', 100000),

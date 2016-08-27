@@ -36,4 +36,8 @@ public class PasswordUtil {
     public static boolean isEncoded(String newPassword) {
         return BCRYPT_PATTERN.matcher(newPassword).matches();
     }
+
+    public static void main(String[] args) {
+        System.out.println(encode("P@ssw0rd"));
+    }
 }
